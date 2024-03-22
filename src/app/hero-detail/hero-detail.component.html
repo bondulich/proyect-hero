@@ -1,6 +1,20 @@
-<h2>{{hero.name | uppercase}} Details</h2>
-<div><span>id: </span>{{hero.id}}</div>
-<div>
-    <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="name">
+<div class="content">
+    <h2>{{isNew ? 'Create hero' : 'Modify hero'}}</h2>
+
+    <form class="hero-form" (ngSubmit)="onSave()">
+        @if (!isNew) {
+        <mat-form-field>
+            <mat-label>ID</mat-label>
+            <input matInput disabled value="{{hero.id}}">
+        </mat-form-field>
+        }
+        <mat-form-field class="input-full-width">
+            <mat-label>Hero name</mat-label>
+            <input matInput class="input-name" [(ngModel)]="hero.name" name="name">
+        </mat-form-field>
+        <div class="buttons-content">
+            <button mat-raised-button type="button" (click)="goBack()">Back</button>
+            <button mat-raised-button type="submit" color="primary">Save</button>
+        </div>
+    </form>
 </div>
