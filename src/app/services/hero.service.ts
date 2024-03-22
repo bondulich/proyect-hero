@@ -38,11 +38,11 @@ export class HeroService {
   deleteHero(id: number): Observable<Hero> {
     this.notificationService.showSnackBar('Deleted hero', 'Accept');
     const url = `${this.heroesUrl}/${id}`;
-    return this.http.delete<Hero>(url, {...this.httpOptions})
+    return this.http.delete<Hero>(url, this.httpOptions)
   }
 
   searchHeroes(text: string): Observable<Hero[]> {
-    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${text}`).pipe(
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${text}`,).pipe(
       tap(x => x.length ?
          console.log(`found heroes matching "${text}"`) :
          console.log(`no heroes matching "${text}"`))
