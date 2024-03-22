@@ -2,8 +2,6 @@
     background-color: #eeeeee;
     padding: 20px;
     border-radius: 10px;
-    min-width: 450px;
-    width: 100%;
 }
 .search-content{
     display: flex;
@@ -13,4 +11,10 @@
 
 .btn-delete{
     margin-left: 0px !important;
+}
+
+@media (max-width: 400px) {
+    .search-content{
+        flex-direction: column;
+    }
 }

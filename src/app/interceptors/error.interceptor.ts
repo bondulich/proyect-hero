@@ -12,6 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (
     return next(req).pipe(
         catchError(errorData => {
             notificationService.showSnackBar('Error on connect with api', 'Accept');
+            console.log(errorData)
             return throwError(() => new Error(errorData));
         })
     );

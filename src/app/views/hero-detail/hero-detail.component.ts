@@ -52,7 +52,7 @@ export class HeroDetailComponent implements OnInit {
     this.loaderService.showLoader();
 
     if(this.isNew){
-      this.heroService.addHero(this.hero).subscribe({
+      this.heroService.addHero({ name:this.hero.name } as Hero).subscribe({
         next: () => this.goBack(),
         complete: () => this.loaderService.hideLoader()
       });
