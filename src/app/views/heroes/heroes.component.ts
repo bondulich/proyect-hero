@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../interfaces/hero';
+import { Hero } from '../../interfaces/hero';
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common';
-import { HeroService } from '../services/hero.service';
+import { HeroService } from '../../services/hero.service';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../components/dialog/dialog.component';
+import { DialogComponent } from '../../components/dialog/dialog.component';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { SearchHeroComponent } from '../components/search-hero/search-hero.component';
-import { LoaderService } from '../services/loader.service';
+import { SearchHeroComponent } from '../../components/search-hero/search-hero.component';
+import { LoaderService } from '../../services/loader.service';
+import { Dialog } from '../../interfaces/dialog';
 
 @Component({
   selector: 'app-heroes',
@@ -43,7 +44,13 @@ export class HeroesComponent implements OnInit {
   }
 
   deleteHero(hero: Hero){
-    const dialogRef = this.dialog.open(DialogComponent, {data: hero, width: '250px'});
+    const dataDialog: Dialog = {
+      title: 'Delete hero',
+      message: `Would you like to delete ${hero.name}?`,
+      btnTextCancel: 'Cancel',
+      btnTextConfirm: 'Delete'
+    };
+    const dialogRef = this.dialog.open(DialogComponent, {data: dataDialog, width: '250px'});
 
     dialogRef.afterClosed().subscribe(accept => {
       if(accept){

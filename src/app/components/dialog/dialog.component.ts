@@ -8,7 +8,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { Hero } from '../../interfaces/hero';
+import { Dialog } from '../../interfaces/dialog';
 
 @Component({
   selector: 'app-dialog',
@@ -18,7 +18,7 @@ import { Hero } from '../../interfaces/hero';
   styleUrl: './dialog.component.css'
 })
 export class DialogComponent {
-  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Hero) {}
+  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Dialog) {}
 
   onNoClick(): void {
     this.dialogRef.close();

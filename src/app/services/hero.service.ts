@@ -3,12 +3,13 @@ import { Hero } from '../interfaces/hero';
 import { NotificationService } from './notification.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
-  private heroesUrl = 'api/heroes';
+  private heroesUrl = environment.apiUrl;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

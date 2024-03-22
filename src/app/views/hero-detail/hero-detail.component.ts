@@ -1,13 +1,13 @@
 import { Location, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Hero } from '../interfaces/hero';
-import { HeroService } from '../services/hero.service';
+import { Hero } from '../../interfaces/hero';
+import { HeroService } from '../../services/hero.service';
 import { ActivatedRoute } from '@angular/router';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { LoaderService } from '../services/loader.service';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-hero-detail',
