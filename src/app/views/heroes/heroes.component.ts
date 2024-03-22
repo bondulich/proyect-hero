@@ -11,7 +11,6 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { SearchHeroComponent } from '../../components/search-hero/search-hero.component';
-import { LoaderService } from '../../services/loader.service';
 import { Dialog } from '../../interfaces/dialog';
 
 @Component({
@@ -24,7 +23,7 @@ import { Dialog } from '../../interfaces/dialog';
 export class HeroesComponent implements OnInit {
   public heroes$ = new BehaviorSubject<Hero[]>([]);
 
-  constructor(private heroService: HeroService, private dialog: MatDialog, private loaderService: LoaderService){ }
+  constructor(private heroService: HeroService, private dialog: MatDialog){ }
 
   ngOnInit(): void {
     this.getHeroes();
@@ -35,11 +34,8 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.loaderService.showLoader();
-
     this.heroService.getHeroes().subscribe({
-      next: res => this.heroes$.next(res),
-      complete: () => this.loaderService.hideLoader()
+      next: res => this.heroes$.next(res)
     });
   }
 

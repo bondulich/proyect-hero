@@ -1,44 +1,42 @@
-import { Location, UpperCasePipe } from '@angular/common';
+import { Location, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Hero } from '../../interfaces/hero';
 import { HeroService } from '../../services/hero.service';
 import { ActivatedRoute } from '@angular/router';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-hero-detail',
   standalone: true,
-  imports: [FormsModule, UpperCasePipe, MatInputModule, MatFormFieldModule, MatButtonModule],
+  imports: [FormsModule, UpperCasePipe, MatInputModule, MatFormFieldModule, MatButtonModule, ReactiveFormsModule, NgIf],
   templateUrl: './hero-detail.component.html',
   styleUrl: './hero-detail.component.css'
 })
 export class HeroDetailComponent implements OnInit {
   public hero: Hero = {id:0, name:''};
-  public isNew: boolean=true;
-  public id: number|null=null;
+  public id: number|false = false;
+  public formHero = new FormGroup({
+    id: new FormControl({value: 0, disabled: true} ),
+    name: new FormControl('', [ Validators.required ]),
+  });
 
-  constructor(private route: ActivatedRoute, private heroService: HeroService, private loaderService:LoaderService, private location: Location){ }
+  constructor(private route: ActivatedRoute, private heroService: HeroService, private location: Location){ }
 
   ngOnInit(): void {
-    this.isNew = this.route.snapshot.paramMap.get('id') === 'new';
-    this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10) ?? null;
+    this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10) ?? false;
     this.getHero();
   }
 
   getHero(): void {
     if(!this.id) return;
-    this.loaderService.showLoader();
 
     this.heroService.getHero(this.id).subscribe({
       next: res => {
         this.hero = res;
-      },
-      complete: () => {
-        this.loaderService.hideLoader();
+        this.formHero.setValue({id: res.id, name: res.name});
       }
     });
   }
@@ -48,18 +46,16 @@ export class HeroDetailComponent implements OnInit {
   }
 
   onSave(){
-    if(!this.hero.name.trim()) return;
-    this.loaderService.showLoader();
-
-    if(this.isNew){
-      this.heroService.addHero({ name:this.hero.name } as Hero).subscribe({
-        next: () => this.goBack(),
-        complete: () => this.loaderService.hideLoader()
+    if(!this.formHero.valid) return;
+    
+    if(this.id){
+      const updatedHero = this.formHero.getRawValue();
+      this.heroService.updateHero(updatedHero as Hero).subscribe({
+        next: () => this.goBack()
       });
     } else {
-      this.heroService.updateHero(this.hero).subscribe({
-        next: () => this.goBack(),
-        complete: () => this.loaderService.hideLoader()
+      this.heroService.addHero({ name:this.formHero.value.name } as Hero).subscribe({
+        next: () => this.goBack()
       });
     }
   }
