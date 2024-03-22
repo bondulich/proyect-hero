@@ -5,6 +5,9 @@ Node 18.19.1.
 
 Para inicializar correr comando `npm install` y `ng serve`
 
+## Vista en vivo
+http://heroes.witat.com/
+
 ## Lista de heroes e input de busqueda
 ![image](https://github.com/bondulich/proyect-heroes/assets/7809231/88296cda-f704-4eca-872b-f55670183706)
 
