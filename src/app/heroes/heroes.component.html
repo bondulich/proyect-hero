@@ -1,9 +1,26 @@
-<h2>Heroes</h2>
-<ul class="heroes">
-    <li *ngFor="let hero of heroes">
-        <button type="button">
-            <span class="badge">{{hero.id}}</span>
-            <span class="name">{{hero.name}}</span>
-        </button>
-    </li>
-</ul>
+<div class="content">
+    <h2>Heroes</h2>
+    <div class="search-content">
+        <app-search-hero (textSearch)="onSearch($event)"></app-search-hero>
+        <button mat-raised-button color="primary" routerLink="/hero-detail/new">New hero</button>
+    </div>
+    <mat-nav-list *ngIf="heroes$.value.length > 0; else noData">
+    @for (hero of heroes$ | async; track hero) {
+        <mat-list-item>
+            {{ hero.name | titlecase }}
+            <button mat-icon-button routerLink="/hero-detail/{{hero.id}}" matListItemMeta>
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="btn-delete" (click)="deleteHero(hero)" matListItemMeta>
+                <mat-icon>delete</mat-icon>
+            </button>
+            @if (!$last) {
+                <mat-divider [inset]="true"></mat-divider>
+            }
+        </mat-list-item>
+    }
+    </mat-nav-list>
+    <ng-template #noData>
+        <h3>Heroes not found</h3>
+    </ng-template>
+</div>
